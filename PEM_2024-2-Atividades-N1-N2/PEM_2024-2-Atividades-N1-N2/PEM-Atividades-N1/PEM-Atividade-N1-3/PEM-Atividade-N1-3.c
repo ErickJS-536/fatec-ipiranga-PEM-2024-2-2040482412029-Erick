@@ -63,13 +63,8 @@ int main()
         }
         cont1++;
         cont2=0;
-        //o contador 3 não é reiniciado, pois irá contar até 64
     }
     printf("    A     B     C     D     E     F     G     H \n");
-
-    //printf("\033[44;37m Cor\033[0m cor");
-    //40-black
-    //47-branco
 
     return 0;
 }
