@@ -19,7 +19,7 @@ int main()
                     "X", "X", "X", "X", "X", "X", "X", "X",
                     "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "BP8",
                     "BT1", "BC1", "BB1", "BD", "BR", "BB2", "BC2", "BT2"};
-    int cont1, cont2, cont3, cont4;
+    int cont1, cont2, cont3, cont4, i;
     cont1=0;
     cont2=0;
     cont3=0;
@@ -43,7 +43,7 @@ int main()
             printf("\033[40;37m %-3s \033[0m|", tabuleiro[cont3]);
           }
           if(cont4==1 | cont4==3| cont4==5 | cont4==7 | cont4==9){
-            printf("\033[47;37m %-3s \033[0m|", tabuleiro[cont3]);
+            printf("\033[48;5;8m %-3s \033[0m|", tabuleiro[cont3]);
           }
             //o contador 2, assim como o contador 1, serve para parar o loop após a oitava casas
             //por outro lado, o contador 3 irá atribuir nas casas seu respectivos valores.
@@ -63,8 +63,11 @@ int main()
         }
         cont1++;
         cont2=0;
+        //o contador 3 não é reiniciado, pois irá contar até 64
     }
     printf("    A     B     C     D     E     F     G     H \n");
+    
+    scanf("%i", &i);
 
     return 0;
 }
