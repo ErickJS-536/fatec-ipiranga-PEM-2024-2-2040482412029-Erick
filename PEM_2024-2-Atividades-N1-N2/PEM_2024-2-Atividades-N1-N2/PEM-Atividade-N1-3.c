@@ -19,7 +19,7 @@ int main()
                     "X", "X", "X", "X", "X", "X", "X", "X",
                     "BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "BP8",
                     "BT1", "BC1", "BB1", "BD", "BR", "BB2", "BC2", "BT2"};
-    int cont1, cont2, cont3, cont4, i;
+    int cont1, cont2, cont3, cont4;
     cont1=0;
     cont2=0;
     cont3=0;
@@ -66,8 +66,5 @@ int main()
         //o contador 3 não é reiniciado, pois irá contar até 64
     }
     printf("    A     B     C     D     E     F     G     H \n");
-    
-    scanf("%i", &i);
-
     return 0;
 }
