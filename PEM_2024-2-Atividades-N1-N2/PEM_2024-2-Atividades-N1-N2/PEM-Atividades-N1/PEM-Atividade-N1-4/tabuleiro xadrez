@@ -1,0 +1,79 @@
+#include <stdio.h>
+
+int main() {
+	char *tabuleiro[8][8] = {
+		{"PT1", "PC1", "PB1", "PD",  "PR",  "PB2", "PC2", "PT2"},
+		{"PP1", "PP2", "PP3", "PP4", "PP5", "PP6", "PP7", "PP8"},
+		{"",    "",    "",    "",    "",    "",    "",    ""},
+		{"",    "",    "",    "",    "",    "",    "",    ""},
+		{"",    "",    "",    "",    "",    "",    "",    ""},
+		{"",    "",    "",    "",    "",    "",    "",    ""},
+		{"BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "BP8"},
+		{"BT1", "BC1", "BB1", "BD",  "BR",  "BB2", "BC2", "BT2"}
+	};
+
+	for (int l = 0; l < 8; l++) {
+		printf("    A     B     C     D     E     F     G     H \n");
+		printf("  -------------------------------------------------\n");
+		for (int i = 0; i < 8; i++) {
+			printf("%d |", 8 - i);
+			for (int j = 0; j < 8; j++) {
+				if (i == 0 || i == 2 || i == 4 || i == 6) {
+					if (j == 0 || j == 2 || j == 4 || j == 6) {
+						printf("\033[47;30m %-3s \033[0m|", tabuleiro[i][j]);
+					} else {
+						printf("\033[48;5;240m %-3s \033[0m|", tabuleiro[i][j]);
+					}
+				} else {
+					if (j == 1 || j == 3 || j == 5 || j == 7) {
+						printf("\033[47;30m %-3s \033[0m|", tabuleiro[i][j]);
+					} else {
+						printf("\033[48;5;240m %-3s \033[0m|", tabuleiro[i][j]);
+					}
+				}
+			}
+			printf("\n  -------------------------------------------------\n");
+		}
+		printf("    A     B     C     D     E     F     G     H \n");
+		printf("\n  -------------------------------------------------\n\n");
+
+		if (l == 0) {
+			char *sub = tabuleiro[6][4];
+			tabuleiro[6][4] = tabuleiro[4][4];
+			tabuleiro[4][4] = sub;
+		}
+		if (l == 1) {
+			char *sub = tabuleiro[1][4];
+			tabuleiro[1][4] = tabuleiro[3][4];
+			tabuleiro[3][4] = sub;
+		}
+		if (l == 2) {
+			char *sub = tabuleiro[7][5];
+			tabuleiro[7][5] = tabuleiro[4][2];
+			tabuleiro[4][2] = sub;
+		}
+		if (l == 3) {
+			char *sub = tabuleiro[0][1];
+			tabuleiro[0][1] = tabuleiro[2][2];
+			tabuleiro[2][2] = sub;
+		}
+		if (l == 4) {
+			char *sub = tabuleiro[3][7];
+			tabuleiro[3][7] = tabuleiro[7][3];
+			tabuleiro[7][3] = sub;
+		}
+		if (l == 5) {
+			char *sub = tabuleiro[0][6];
+			tabuleiro[0][6] = tabuleiro[2][5];
+			tabuleiro[2][5] = sub;
+		}
+		if (l == 6) {
+			char *sub = tabuleiro[1][5];
+			tabuleiro[1][5] = tabuleiro[3][7];
+			tabuleiro[3][7] = sub;
+			tabuleiro[3][7] = "";
+		}
+	}
+
+	return 0;
+}
