@@ -1,0 +1,87 @@
+/*--------------------------------------------------------* 
+* Disciplina: ProgramaC§ao Estruturada e Modular * * Prof. Carlos VerC­ssimo * 
+*--------------------------------------------------------* 
+* Objetivo do Programa: Simular o xeque pastor
+* Data - 23/08/2024 * 
+* Autor: Erick Diego de Jesus Soares* 
+*--------------------------------------------------------*/
+#include <stdio.h>
+
+Int main() {
+	Char *tabuleiro[8][8] = {
+		{"PT1", "PC1", "PB1", "PD",  "PR",  "PB2", "PC2", "PT2"},
+		{"PP1", "PP2", "PP3", "PP4", "PP5", "PP6", "PP7", "PP8"},
+		{"",    "",    "",    "",    "",    "",    "",    ""},
+		{"",    "",    "",    "",    "",    "",    "",    ""},
+		{"",    "",    "",    "",    "",    "",    "",    ""},
+		{"",    "",    "",    "",    "",    "",    "",    ""},
+		{"BP1", "BP2", "BP3", "BP4", "BP5", "BP6", "BP7", "BP8"},
+		{"BT1", "BC1", "BB1", "BD",  "BR",  "BB2", "BC2", "BT2"}
+	};
+
+	For (int l = 0; l < 8; l++) {
+		Printf("    A     B     C     D     E     F     G     H \n");
+		Printf("  -------------------------------------------------\n");
+		For (int i = 0; i < 8; i++) {
+			Printf("%d |", 8 - i);
+			For (int j = 0; j < 8; j++) {
+				If (i == 0 || i == 2 || i == 4 || i == 6) {
+					If (j == 0 || j == 2 || j == 4 || j == 6) {
+						Printf("\033[47;30m %-3s \033[0m|", tabuleiro[i][j]);
+					} else {
+						Printf("\033[48;5;240m %-3s \033[0m|", tabuleiro[i][j]);
+					}
+				} else {
+					If (j == 1 || j == 3 || j == 5 || j == 7) {
+						Printf("\033[47;30m %-3s \033[0m|", tabuleiro[i][j]);
+					} else {
+						Printf("\033[48;5;240m %-3s \033[0m|", tabuleiro[i][j]);
+					}
+				}
+			}
+			Printf("\n  -------------------------------------------------\n");
+		}
+		Printf("    A     B     C     D     E     F     G     H \n");
+		Printf("\n  -------------------------------------------------\n\n");
+
+		If (l == 0) {
+			Char *sub = tabuleiro[6][4];
+			Tabuleiro[6][4] = tabuleiro[4][4];
+			Tabuleiro[4][4] = sub;
+		}
+		If (l == 1) {
+			Char *sub = tabuleiro[1][4];
+			Tabuleiro[1][4] = tabuleiro[3][4];
+			Tabuleiro[3][4] = sub;
+		}
+		If (l == 2) {
+			Char *sub = tabuleiro[7][5];
+			Tabuleiro[7][5] = tabuleiro[4][2];
+			Tabuleiro[4][2] = sub;
+		}
+		If (l == 3) {
+			Char *sub = tabuleiro[0][1];
+			Tabuleiro[0][1] = tabuleiro[2][2];
+			Tabuleiro[2][2] = sub;
+		}
+		If (l == 4) {
+			Char *sub = tabuleiro[3][7];
+			Tabuleiro[3][7] = tabuleiro[7][3];
+			Tabuleiro[7][3] = sub;
+		}
+		If (l == 5) {
+			Char *sub = tabuleiro[0][6];
+			Tabuleiro[0][6] = tabuleiro[2][5];
+			Tabuleiro[2][5] = sub;
+		}
+		If (l == 6) {
+			Char *sub = tabuleiro[1][5];
+			Tabuleiro[1][5] = tabuleiro[3][7];
+			Tabuleiro[3][7] = sub;
+			Tabuleiro[3][7] = "";
+		}
+	}
+
+	Return 0;
+}
+
