@@ -1,0 +1,117 @@
+/*--------------------------------------------------------*
+* Disciplina: Programaçao Estruturada e Modular           *
+*          Prof. Carlos Veríssimo                         *                                  *                                                         *
+*---------------------------------------------------------*
+* Objetivo do Programa: Simulador Xeque-Pastor em um programa com funções          *
+*   ***PROGRAMA MODULALIZADO**              *          
+* Data – 07/09/2024                                       * 
+* Autor: Erick Diego de Jesus Soares                               *
+*--------------------------------------------------------*/
+#include <stdio.h>
+
+int ExibirTabuleiro(char vetor[8][8]){for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            printf("%c ", vetor[i][j]);
+        }
+        printf("\n");
+    }
+printf("\n");
+return(0);                                        }
+
+int Jogada1(char vetor[8][8]){
+    vetor[4][4] = vetor[6][4];
+vetor[6][4] = '.';
+return(0);
+}
+
+int Jogada2(char vetor[8][8]){
+vetor[3][4] = vetor[1][4];
+vetor[1][4] = '.';
+    return(0);
+}
+
+int Jogada3(char vetor[8][8]){
+vetor[4][2] = vetor[7][5];
+vetor[7][5] = '.';
+    return(0);
+}
+
+int Jogada4(char vetor[8][8]){
+vetor[2][2] = vetor[0][1];
+vetor[0][1] = '.';
+    return(0);
+}
+
+int Jogada5(char vetor[8][8]){
+vetor[3][7] = vetor[7][3];
+vetor[7][3] = '.';
+    return(0);
+}
+
+int Jogada6(char vetor[8][8]){
+vetor[2][5] = vetor[0][6];
+vetor[0][6] = '.';
+    return(0);
+}
+
+int Jogada7(char vetor[8][8]){
+vetor[1][5] = vetor[3][7];
+vetor[3][7] = '.';
+    return(0);
+}
+
+int main(){
+// tabuleiro com as peças na posição inicial
+char vetor[8][8] = {
+        {'t', 'c', 'b', 'd', 'r', 'b', 'c', 't'},
+        {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
+        {'.', '.', '.', '.', '.', '.', '.', '.'},
+        {'.', '.', '.', '.', '.', '.', '.', '.'},
+        {'.', '.', '.', '.', '.', '.', '.', '.'},
+        {'.', '.', '.', '.', '.', '.', '.', '.'},
+        {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
+        {'T', 'C', 'B', 'D', 'R', 'B', 'C', 'T'}    };
+
+printf("Tabuleiro inicial:\n");
+  
+ExibirTabuleiro(vetor);
+
+Jogada1(vetor);
+
+printf("Após jogada #1 das Brancas (Peão do Rei e2 para e4):\n");
+   
+ExibirTabuleiro(vetor);
+
+Jogada2(vetor);
+    
+printf("Após jogada #1 das Pretas (Peão do Rei e7 para e5):\n");
+   
+ExibirTabuleiro(vetor);
+
+Jogada3(vetor);
+printf("Após jogada #2 das Brancas (Bispo do Rei f1 para c4):\n");
+
+ExibirTabuleiro(vetor);
+
+Jogada4(vetor);
+printf("Após jogada #2 das Pretas (Cavalo da Dama b8 para c6):\n");
+  
+ExibirTabuleiro(vetor);
+
+Jogada5(vetor);
+printf("Após jogada #3 das Brancas (Dama d1 para h5):\n");
+   
+ExibirTabuleiro(vetor);
+
+Jogada5(vetor);
+printf("Após jogada #3 das Pretas (Cavalo do Rei g8 para f6):\n");
+ExibirTabuleiro(vetor);
+  
+Jogada6(vetor);
+printf("Após jogada #4 das Brancas (Dama h5 captura Peão f7 - Xeque Mate):\n");
+    
+ExibirTabuleiro(vetor);
+
+Jogada7(vetor);
+return 0;
+}
