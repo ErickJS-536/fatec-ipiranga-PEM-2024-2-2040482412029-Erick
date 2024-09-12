@@ -9,6 +9,7 @@
 *--------------------------------------------------------*/
 #include <stdio.h>
 
+//Uma função int que irá exibir o tabuleiro sempre que chamada 
 int ExibirTabuleiro(char vetor[8][8]){for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             printf("%c ", vetor[i][j]);
@@ -18,6 +19,7 @@ int ExibirTabuleiro(char vetor[8][8]){for (int i = 0; i < 8; i++) {
 printf("\n");
 return(0);                                        }
 
+//Sequência de funções referente as jogas que serão executadas
 int Jogada1(char vetor[8][8]){
     vetor[4][4] = vetor[6][4];
 vetor[6][4] = '.';
