@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+void QuantidadeMaxima(int *quatmax) {
+    printf("Quantos valores serão inseridos? \n");
+    scanf("%i", quatmax);
+}
+
+void EntradaPilha(int quatmax, int pilha[]){
+    printf("\nEntre com os %i valores:\n", quatmax);
+    for (int i = 0; i < quatmax; i++) {
+        scanf("%i", &pilha[i]);
+    }
+}
+
+void ExibirPilha(int quatmax, int pilha[]){
+    printf("Pilha:  ");
+    for (int i = 0; i < quatmax; i++) {
+        if (i < quatmax - 1) {
+            printf("| %i ", pilha[i]);
+        } else {
+            printf("| %i |\n", pilha[i]);
+        }
+    }
+}
+
+void ExibirTracejado(int quatmax){
+    printf("        ");
+    for(int i = 0; i < quatmax; i++){
+        printf("----");
+    }
+    printf("\n");
+}
+
+void BubbleSort(int quatmax, int pilha[]){
+    int trocado;
+    ExibirTracejado(quatmax);
+    do {
+        // Variável de controle de troca
+        trocado = 0;  
+        for (int j = 0; j < quatmax - 1; j++) {
+            if (pilha[j] > pilha[j + 1]) {
+                // Troca os elementos
+                int temp = pilha[j];
+                pilha[j] = pilha[j + 1];
+                pilha[j + 1] = temp;
+                // Marca que houve uma troca
+                trocado = 1;  
+                // Exibição da pilha
+                ExibirPilha(quatmax, pilha);
+                ExibirTracejado(quatmax);
+            }
+        }
+    } while (trocado);
+}
+
+
+
+
+int main(){
+    
+    int quatmax;
+
+    //Função para definir o tamanho da pilha
+    QuantidadeMaxima(&quatmax);
+    
+    //Aloca dinamicamente a pilha com base no número de valores
+    int *pilha = (int *)malloc(quatmax * sizeof(int));
+    
+    //Função para atribuir o valores da pilha
+    EntradaPilha(quatmax, pilha);
+    
+    printf("\nOrdem original da pilha\n");
+    //Função para exibir a pilha 
+    ExibirPilha(quatmax, pilha);
+    
+    printf("\nExecução do Bubble Sort\n");
+    //Função para reordenar pilha
+    BubbleSort(quatmax, pilha);
+    
+    printf("\nPilha reodernada\n");
+    //Função para exibir pilha
+    ExibirPilha(quatmax, pilha);
+    
+    // Libera a memória alocada
+    free(pilha);
+    
+    return 0;
+}
