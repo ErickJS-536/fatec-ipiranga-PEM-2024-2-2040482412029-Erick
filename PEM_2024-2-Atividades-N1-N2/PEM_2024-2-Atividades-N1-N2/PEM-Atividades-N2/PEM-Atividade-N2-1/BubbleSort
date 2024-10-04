@@ -1,3 +1,11 @@
+/*--------------------------------------------------------* 
+* Disciplina: ProgramaC§ao Estruturada e Modular * * Prof. Carlos Verissimo * 
+*--------------------------------------------------------* 
+* Objetivo do Programa: Simular o BubbleSort
+* Data - 27/09/2024 * 
+* Autor: Erick Diego de Jesus Soares* 
+*--------------------------------------------------------*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
