@@ -1,0 +1,144 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+struct Produtos {
+    int idproduto;
+    char nomeproduto[50];
+    char descricao[100];
+    float precoproduto;
+    int qtdestoque;
+};
+
+int PerguntaLoop(int n, char *res) {
+    scanf("%s", res);
+    for (int j = 0; res[j]; j++) {
+        res[j] = tolower(res[j]);
+    }
+    if (strcmp(res, "sim") == 0) {
+        printf("\nInsira o produto: \n");
+    } else {
+        return 51;
+    }
+    return n;
+}
+
+void InserirProdutos(struct Produtos produtos[], int *quantidade) {
+    char nome[50], preco[10], qtd[10], desc[100];
+    char resposta[5];
+    for (int i = 0; i < 50; i++) {
+        printf("/**************************************************/\n");
+        printf("| P%i- Nome: ", i);
+        fgets(nome, sizeof(nome), stdin);
+        strcpy(produtos[i].nomeproduto, nome);
+
+        printf("\n|      Preco: ");
+        fgets(preco, sizeof(preco), stdin);
+        produtos[i].precoproduto = atof(preco);
+
+        printf("\n|      Qtd.Estoque: ");
+        fgets(qtd, sizeof(qtd), stdin);
+        produtos[i].qtdestoque = atoi(qtd);
+
+        printf("\n|      Descrição: ");
+        fgets(desc, sizeof(desc), stdin);
+        strcpy(produtos[i].descricao, desc);
+        printf("\n/**************************************************/\n");
+
+        produtos[i].idproduto = i;
+        (*quantidade)++;
+
+        printf("Quer inserir outro produto? \n");
+        if (PerguntaLoop(i, resposta) == 51) break;
+        getchar();
+    }
+}
+
+void MostrarProdutos(struct Produtos produtos[], int quantidade) {
+    printf("\n\n/******************** Lista de Produtos ********************/\n");
+    for (int i = 0; i < quantidade; i++) {
+        printf("|      Codigo: %i\n", produtos[i].idproduto);
+        printf("|      Nome: %s", produtos[i].nomeproduto);
+        printf("|      Preco: %.2f\n", produtos[i].precoproduto);
+        printf("|      Qtd.Estoque: %i\n", produtos[i].qtdestoque);
+        printf("|      Descrição: %s", produtos[i].descricao);
+        printf("/**************************************************/\n\n");
+    }
+}
+
+void CompraProdutos(char idcompra[], struct Produtos produtos[], struct Produtos carrinho[], int *quantidade_no_carrinho) {
+    char *token = strtok(idcompra, ", ");
+    *quantidade_no_carrinho = 0;
+
+    while (token != NULL) {
+        int id = atoi(token);
+        for (int i = 0; i < 50; i++) {
+            if (produtos[i].idproduto == id) {
+                carrinho[*quantidade_no_carrinho] = produtos[i];
+                (*quantidade_no_carrinho)++;
+                break;
+            }
+        }
+        token = strtok(NULL, ", ");
+    }
+}
+
+void ListaCompra(struct Produtos carrinho[], int quantidadecarrinho) {
+    printf("/******************** Carrinho ********************/\n");
+    for (int i = 0; i < quantidadecarrinho; i++) {
+        printf("|      Cod: %d - Nome: %s - Preço: %.2f\n",
+               carrinho[i].idproduto,
+               carrinho[i].nomeproduto,
+               carrinho[i].precoproduto);
+    }
+    printf("/**************************************************/\n\n\n");
+}
+
+int main() {
+    struct Produtos produtos[50];
+    struct Produtos carrinho[50];
+    char idcompra[100];
+    int quantidade = 0;
+    int quantidadecarrinho = 0;
+    float total = 0;
+    int escolha;
+    
+    do {
+        printf("Digite um número para executar uma função do programa:\n");
+        printf("1 - Cadastrar Produto\n2 - Listar Produtos\n3 - Comprar Produtos\n4 - Listar Carrinho\n5 - Sair\n");
+        printf("Escolha: ");
+        scanf("%i", &escolha);
+        getchar();
+        switch (escolha) {
+            case 1:
+                printf("Insira um produto:\n");
+                InserirProdutos(produtos, &quantidade);
+                break;
+            case 2:
+                printf("\nListagem dos produtos:\n");
+                MostrarProdutos(produtos, quantidade);
+                break;
+            case 3:
+                printf("Insira o código dos produtos para adicionar ao carrinho (separados por espaço ou vírgula): ");
+                fgets(idcompra, sizeof(idcompra), stdin);
+                CompraProdutos(idcompra, produtos, carrinho, &quantidadecarrinho);
+                break;
+            case 4:
+                printf("\n\nQuantidade no carrinho: %i \n", quantidadecarrinho);
+                total = 0;
+                for (int i = 0; i < quantidadecarrinho; i++) {
+                    total += carrinho[i].precoproduto;
+                }
+                printf("Valor Total: %.2f \n", total);
+                ListaCompra(carrinho, quantidadecarrinho);
+                break;
+            case 5:
+                break;
+            default:
+                printf("Opção inválida. Tente novamente.\n");
+                break;
+        }
+    } while (escolha != 5);
+    return 0;
+}
