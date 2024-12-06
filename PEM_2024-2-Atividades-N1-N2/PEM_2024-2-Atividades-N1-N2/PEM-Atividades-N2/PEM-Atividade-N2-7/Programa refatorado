@@ -1,1 +1,265 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+// Diretiva para definir o tamanho do array
+#define MAX_PRODUTOS 10
+
+// Estrutura do produto
+typedef struct {
+    int ID;
+    char nomeProd[50];
+    int qntdEstoque;
+    double valorProduto;
+} Produto;
+
+// Função para criar um produto
+Produto* SetProduto(int ID, char* nomeProd, int qntdEstoque, double valorProduto) {
+    Produto* prod = (Produto*)malloc(sizeof(Produto));
+    if (prod != NULL) {
+        prod->ID = ID;
+        strcpy(prod->nomeProd, nomeProd);
+        prod->qntdEstoque = qntdEstoque;
+        prod->valorProduto = valorProduto;
+    }
+    return prod;
+}
+
+// Função para imprimir os detalhes de um produto
+void imprimeProduto(Produto* prod) {
+    if (prod != NULL) {
+        printf("\n*--------------------------------*");
+        printf("\n * Id: %d", prod->ID);
+        printf("\n * Nome Produto: %s", prod->nomeProd);
+        printf("\n * Quantidade Disponível: %d", prod->qntdEstoque);
+        printf("\n * Preço/Valor: %.2f", prod->valorProduto);
+        printf("\n*---------------------------------*");
+    }
+}
+
+// Função para validar entrada de números inteiros
+int lerInteiro(char* mensagem) {
+    int valor;
+    printf("%s", mensagem);
+    while (scanf("%d", &valor) != 1) {
+        printf("Entrada inválida! Tente novamente.\n");
+        while (getchar() != '\n'); 
+        printf("%s", mensagem);
+    }
+    return valor;
+}
+
+// Função para validar entrada de números reais
+double lerDouble(char* mensagem) {
+    double valor;
+    printf("%s", mensagem);
+    while (scanf("%lf", &valor) != 1) {
+        printf("Entrada inválida! Tente novamente.\n");
+        while (getchar() != '\n'); 
+        printf("%s", mensagem);
+    }
+    return valor;
+}
+
+// Função para verificar duplicação de IDs
+bool idDuplicado(Produto* produtos[], int totalProdutos, int id) {
+    for (int i = 0; i < totalProdutos; i++) {
+        if (produtos[i]->ID == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Função para incluir um novo produto
+void incluirProduto(Produto* produtos[], int* totalProdutos) {
+    if (*totalProdutos >= MAX_PRODUTOS) {
+        printf("Limite de produtos atingido!\n");
+        return;
+    }
+
+    int id = lerInteiro("Digite o ID do produto: ");
+    if (idDuplicado(produtos, *totalProdutos, id)) {
+        printf("Erro: ID já cadastrado!\n");
+        return;
+    }
+
+    char nome[50];
+    printf("Digite o nome do produto: ");
+    scanf(" %[^\n]s", nome);
+
+    int quantidade = lerInteiro("Digite a quantidade em estoque: ");
+    double preco = lerDouble("Digite o valor do produto: ");
+
+    produtos[*totalProdutos] = SetProduto(id, nome, quantidade, preco);
+    (*totalProdutos)++;
+    printf("Produto adicionado com sucesso!\n");
+}
+
+// Função para alterar um produto existente por ID
+void alterarProduto(Produto* produtos[], int totalProdutos) {
+    int id = lerInteiro("Digite o ID do produto que deseja alterar: ");
+    bool encontrado = false;
+
+    for (int i = 0; i < totalProdutos; i++) {
+        if (produtos[i]->ID == id) {
+            char novoNome[50];
+            printf("Digite o novo nome do produto: ");
+            scanf(" %[^\n]s", novoNome);
+            int novaQuantidade = lerInteiro("Digite a nova quantidade em estoque: ");
+            double novoPreco = lerDouble("Digite o novo valor do produto: ");
+
+            strcpy(produtos[i]->nomeProd, novoNome);
+            produtos[i]->qntdEstoque = novaQuantidade;
+            produtos[i]->valorProduto = novoPreco;
+            printf("Produto alterado com sucesso!\n");
+            encontrado = true;
+            break;
+        }
+    }
+    if (!encontrado) {
+        printf("Produto com ID %d não encontrado.\n", id);
+    }
+}
+
+// Função para consultar um produto por ID
+void consultarProduto(Produto* produtos[], int totalProdutos) {
+    int id = lerInteiro("Digite o ID do produto que deseja consultar: ");
+    bool encontrado = false;
+
+    for (int i = 0; i < totalProdutos; i++) {
+        if (produtos[i]->ID == id) {
+            imprimeProduto(produtos[i]);
+            encontrado = true;
+            break;
+        }
+    }
+    if (!encontrado) {
+        printf("Produto com ID %d não encontrado.\n", id);
+    }
+}
+
+// Função para excluir um produto por ID
+void excluirProduto(Produto* produtos[], int* totalProdutos) {
+    int id = lerInteiro("Digite o ID do produto que deseja excluir: ");
+    bool encontrado = false;
+
+    for (int i = 0; i < *totalProdutos; i++) {
+        if (produtos[i]->ID == id) {
+            free(produtos[i]); 
+            for (int j = i; j < *totalProdutos - 1; j++) {
+                produtos[j] = produtos[j + 1];
+            }
+            (*totalProdutos)--;
+            printf("Produto excluído com sucesso!\n");
+            encontrado = true;
+            break;
+        }
+    }
+    if (!encontrado) {
+        printf("Produto com ID %d não encontrado.\n", id);
+    }
+}
+
+// Função para imprimir todos os produtos
+void imprimirDadosProd(Produto* produtos[], int totalProdutos) {
+    if (totalProdutos == 0) {
+        printf("Nenhum produto cadastrado.\n");
+    } else {
+        for (int i = 0; i < totalProdutos; i++) {
+            imprimeProduto(produtos[i]);
+        }
+    }
+}
+
+// Função para aplicar desconto ao produto
+void aplicarDesconto(Produto* produtos[], int totalProdutos) {
+    int id = lerInteiro("Digite o ID do produto para aplicar o desconto: ");
+    double desconto = lerDouble("Digite o percentual de desconto (exemplo, para 10%%, digite 10): ");
+    bool encontrado = false;
+
+    for (int i = 0; i < totalProdutos; i++) {
+        if (produtos[i]->ID == id) {
+            produtos[i]->valorProduto *= (1 - desconto / 100.0);
+            printf("Desconto aplicado com sucesso! Novo valor: %.2f\n", produtos[i]->valorProduto);
+            encontrado = true;
+            break;
+        }
+    }
+    if (!encontrado) {
+        printf("Produto com ID %d não encontrado.\n", id);
+    }
+}
+
+// Função para vender um produto
+void venderProduto(Produto* produtos[], int totalProdutos) {
+    int id = lerInteiro("Digite o ID do produto que deseja comprar: ");
+    int quantidade = lerInteiro("Digite a quantidade a ser comprada: ");
+    bool encontrado = false;
+
+    for (int i = 0; i < totalProdutos; i++) {
+        if (produtos[i]->ID == id) {
+            if (produtos[i]->qntdEstoque >= quantidade) {
+                produtos[i]->qntdEstoque -= quantidade;
+                printf("Compra realizada com sucesso!\n");
+                encontrado = true;
+            } else {
+                printf("Erro: Quantidade insuficiente no estoque!\n");
+            }
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("Produto com ID %d não encontrado.\n", id);
+    }
+}
+
+int main() {
+    Produto* produtos[MAX_PRODUTOS];
+    int totalProdutos = 0;
+    int opcao;
+
+    printf("Seja bem-vindo à loja de produtos eletrônicos!\n");
+
+    while (true) {
+        printf("\nMenu de opções:\n1 - Incluir produto\n2 - Alterar produto por ID\n3 - Consultar produto por ID\n4 - Excluir produto\n");
+        printf("5 - Imprimir todos os produtos\n6 - Aplicar desconto em produto\n7 - Comprar produto\n8 - Sair\nEscolha uma opção: ");
+        opcao = lerInteiro("");
+
+        switch (opcao) {
+            case 1:
+                incluirProduto(produtos, &totalProdutos);
+                break;
+            case 2:
+                alterarProduto(produtos, totalProdutos);
+                break;
+            case 3:
+                consultarProduto(produtos, totalProdutos);
+                break;
+            case 4:
+                excluirProduto(produtos, &totalProdutos);
+                break;
+            case 5:
+                imprimirDadosProd(produtos, totalProdutos);
+                break;
+            case 6:
+                aplicarDesconto(produtos, totalProdutos);
+                break;
+            case 7:
+                venderProduto(produtos, totalProdutos);
+                break;
+            case 8:
+                printf("Obrigado por usar o sistema da loja!\n");
+                for (int i = 0; i < totalProdutos; i++) {
+                    free(produtos[i]);
+                }
+                return 0;
+            default:
+                printf("Opção inválida!\n");
+                break;
+        }
+    }
+}
 
